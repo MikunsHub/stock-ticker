@@ -1,0 +1,9 @@
+[tool.ruff]
+# Set the maximum line length to 120.
+line-length = 120
+lint.ignore = ["E731"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "tab"
+docstring-code-format = true

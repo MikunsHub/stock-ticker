@@ -1,0 +1,6 @@
+import os
+
+ALPHA_VANTAGE_API_KEY = os.environ['ALPHA_VANTAGE_API_KEY']
+MONGO_USER=os.environ['MONGO_USER']
+MONGO_PASSWORD = os.environ["MONGO_PASSWORD"]
+MONGO_HOST=os.environ['MONGO_HOST']

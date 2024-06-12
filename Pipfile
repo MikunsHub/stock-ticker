@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+mypy = "*"
+cfn-lint = "*"
+ruff = "*"
+rich = "*"
+
+[packages]
+alpha_vantage = "*"
+pymongo = "*"
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+main = "python main.py"
+test = "pytest -vvs"
+type-check = "mypy . --ignore-missing-imports"
+lint = "flake8 . --exclude ./.aws-sam/ --max-line-length=120 --ignore=E731,W503"
+ruff = "ruff check ."
+ruff-fix = "ruff check --fix ."
+ruff-format = "ruff format ."
