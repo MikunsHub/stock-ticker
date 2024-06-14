@@ -1,0 +1,7 @@
+OPEN_KEY = '1. open'
+HIGH_KEY = '2. high'
+LOW_KEY = '3. low'
+CLOSE_KEY = '4. close'
+VOLUME_KEY = '5. volume'
+DIVIDEND_AMOUNT_KEY = '1. dividend amount'
+SPLIT_RATIO_KEY = '1. split ratio'

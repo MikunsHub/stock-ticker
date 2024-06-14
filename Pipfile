@@ -12,13 +12,18 @@ rich = "*"
 
 [packages]
 alpha_vantage = "*"
-pymongo = "*"
+flask = "*"
+flask-pydantic = "*"
+pymongo = {version = "==3.11.*", extras = ["srv"]}
+requests = "*"
+types-requests = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.11"
 
 [scripts]
-main = "python main.py"
+main = "python app.py"
 test = "pytest -vvs"
 type-check = "mypy . --ignore-missing-imports"
 lint = "flake8 . --exclude ./.aws-sam/ --max-line-length=120 --ignore=E731,W503"
