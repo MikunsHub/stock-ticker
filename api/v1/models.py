@@ -31,5 +31,13 @@ class StockSearchResponseModel(BaseModel):
 		from_attributes = True
 
 
+class WatchlistResponseModel(BaseModel):
+	message: str
+	data: list[dict[str, Any]]
+
+	class Config:
+		from_attributes = True
+
+
 class StockSearchQueryParams(BaseModel):
 	keyword: str

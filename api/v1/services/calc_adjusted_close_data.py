@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Any, Dict, List
-from api.v1.models import SuccessResponseModel, TickerCreatePayload
+from api.v1.models import SuccessResponseModel, TickerCreatePayload, WatchlistResponseModel
 from api.v1.services.constants import (
 	OPEN_KEY,
 	CLOSE_KEY,
@@ -12,17 +12,35 @@ from api.v1.services.constants import (
 )
 from database.db_setup import use_db
 from interfaces.alpha_vantage import AlphaVantageAPIClient, AlphaVantageAPIClientError
-from interfaces.constants import AlphaVantageResources
+from interfaces.constants import AlphaVantageResources, EODHDResources
 from rich import print
+
+from interfaces.eohd import EODHDAPIClient
+
+
+@use_db('stock_data')
+def get_stock_data_from_db(collections, stock_symbol: str):
+	adjusted_data = collections['stock_data'].find_one({'ticker': stock_symbol})
+	return SuccessResponseModel(message='Ticker added successfully', adjusted_data=adjusted_data['data'])
 
 
 @use_db('watchlist')
-def upsert_ticker_to_watchlist(collections, stock_symbol: str):
+def upsert_ticker_to_watchlist(collections, stock_symbol: str,close_price:float):
 	collections['watchlist'].update_one(
 		{'ticker': stock_symbol},
-		{'$set': {'ticker': stock_symbol}},  # This ensures upsert works correctly
+		{'$set': {'ticker': stock_symbol, 'close_price': close_price}},  # This ensures upsert works correctly
 		upsert=True,
 	)
+
+
+@use_db('watchlist')
+def get_watchlist_data(collections):
+	watchlist_cursor = collections['watchlist'].find()
+	watchlist = []
+	for doc in watchlist_cursor:
+		doc.pop('_id', None)
+		watchlist.append(doc)
+	return WatchlistResponseModel(message='successful',data=list(watchlist))
 
 
 @use_db('stock_data')
@@ -86,7 +104,7 @@ def adjust_prices(
 	return adjusted_data
 
 
-def calculate_adjusted_close_data(body: TickerCreatePayload):
+def calculate_adjusted_close_dataa(body: TickerCreatePayload):
 	def fetch_and_adjust_prices(symbol: str):
 		with AlphaVantageAPIClient() as client:
 			try:
@@ -107,6 +125,16 @@ def calculate_adjusted_close_data(body: TickerCreatePayload):
 	upsert_ticker_to_watchlist(body.stock_symbol)
 	adjusted_data = fetch_and_adjust_prices(body.stock_symbol)
 	from rich import print
+
 	print(adjusted_data)
 	store_adjusted_close_data(body.stock_symbol, adjusted_data)
 	return SuccessResponseModel(message='Ticker added successfully', adjusted_data=adjusted_data[:5])
+
+
+def calculate_adjusted_close_data(body: TickerCreatePayload):
+	with EODHDAPIClient() as client:
+		adjusted_data = client.fetch_data(EODHDResources.EOD, symbol=body.stock_symbol, _from='2023-12-01', to='2024-06-14')
+		print(adjusted_data)
+		upsert_ticker_to_watchlist(body.stock_symbol,adjusted_data[-1]['close'])
+		store_adjusted_close_data(body.stock_symbol, adjusted_data)
+	return SuccessResponseModel(message='Ticker added successfully', adjusted_data=adjusted_data)

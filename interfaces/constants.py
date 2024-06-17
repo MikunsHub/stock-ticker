@@ -33,3 +33,29 @@ class AlphaVantageResources(Enum):
 		Template('${base_url}/query?function=TOP_GAINERS_LOSERS&apikey=${apikey}'),
 		(),
 	)
+
+class EODHDResources(Enum):
+	EOD = (
+		Template(
+			'${base_url}/api/eod/${symbol}?from=${_from}&to=${to}&period=${period}&api_token=${api_token}&fmt=${fmt}'
+		),
+		(('period', 'd'), ('fmt', 'json')),
+	)
+	DIVIDENDS = (
+		Template(
+			'${base_url}/api/div/${symbol}?from=${from}&to=${to}&api_token=${api_token}&fmt=${fmt}'
+		),
+		(('fmt', 'json'),),
+	)
+	SPLITS = (
+		Template(
+			'${base_url}/api/splits/${symbol}?from=${from}&to=${to}&api_token=${api_token}&fmt=${fmt}'
+		),
+		(('fmt', 'json'),),
+	)
+	FUNDAMENTALS = (
+		Template(
+			'${base_url}/api/fundamentals/${symbol}?api_token=${api_token}&fmt=${fmt}'
+		),
+		(('fmt', 'json'),),
+	)
