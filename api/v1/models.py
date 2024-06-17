@@ -13,3 +13,23 @@ class SuccessResponseModel(BaseModel):
 
 	class Config:
 		from_attributes = True
+
+
+class ErrorResponseModel(BaseModel):
+	message: str
+	data: list[None]
+
+	class Config:
+		from_attributes = True
+
+
+class StockSearchResponseModel(BaseModel):
+	message: str
+	data: Any
+
+	class Config:
+		from_attributes = True
+
+
+class StockSearchQueryParams(BaseModel):
+	keyword: str

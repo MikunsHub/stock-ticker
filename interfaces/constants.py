@@ -25,3 +25,11 @@ class AlphaVantageResources(Enum):
 		Template('${base_url}/query?function=SPLITS&symbol=${symbol}&apikey=${apikey}'),
 		(),
 	)
+	SYMBOL_SEARCH = (
+		Template('${base_url}/query?function=SYMBOL_SEARCH&keywords=${keywords}&datatype=${datatype}&apikey=${apikey}'),
+		(('datatype', 'json'),),
+	)
+	TOP_GAINERS_LOSERS = (
+		Template('${base_url}/query?function=TOP_GAINERS_LOSERS&apikey=${apikey}'),
+		(),
+	)

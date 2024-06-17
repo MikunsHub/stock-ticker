@@ -13,6 +13,7 @@ from api.v1.services.constants import (
 from database.db_setup import use_db
 from interfaces.alpha_vantage import AlphaVantageAPIClient, AlphaVantageAPIClientError
 from interfaces.constants import AlphaVantageResources
+from rich import print
 
 
 @use_db('watchlist')
@@ -31,6 +32,7 @@ def store_adjusted_close_data(collections, stock_symbol: str, adjusted_data: Lis
 		{'$set': {'ticker': stock_symbol, 'data': adjusted_data}},
 		upsert=True,
 	)
+	print('DONE')
 
 
 def apply_splits(date: datetime, adjusted_close: float, splits: Dict[datetime, float]) -> float:
@@ -104,5 +106,7 @@ def calculate_adjusted_close_data(body: TickerCreatePayload):
 
 	upsert_ticker_to_watchlist(body.stock_symbol)
 	adjusted_data = fetch_and_adjust_prices(body.stock_symbol)
+	from rich import print
+	print(adjusted_data)
 	store_adjusted_close_data(body.stock_symbol, adjusted_data)
-	return SuccessResponseModel(message='Ticker added successfully', adjusted_data=adjusted_data)
+	return SuccessResponseModel(message='Ticker added successfully', adjusted_data=adjusted_data[:5])

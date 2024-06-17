@@ -13,6 +13,7 @@ rich = "*"
 [packages]
 alpha_vantage = "*"
 flask = "*"
+flask-cors = "*"
 flask-pydantic = "*"
 pymongo = {version = "==3.11.*", extras = ["srv"]}
 requests = "*"
