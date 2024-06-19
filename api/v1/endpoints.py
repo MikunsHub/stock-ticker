@@ -9,7 +9,11 @@ from api.v1.models import (
 	TickerCreatePayload,
 	WatchlistResponseModel,
 )
-from api.v1.services.calc_adjusted_close_data import calculate_adjusted_close_data, get_stock_data_from_db, get_watchlist_data
+from api.v1.services.calc_adjusted_close_data import (
+	calculate_adjusted_close_data,
+	get_stock_data_from_db,
+	get_watchlist_data,
+)
 from api.v1.services.search_for_ticker import search_alpha_vantage_for_ticker
 
 v1 = Blueprint('v1', __name__)

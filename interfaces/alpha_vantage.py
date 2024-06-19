@@ -58,5 +58,4 @@ class AlphaVantageAPIClient:
 
 		# Generate the URL
 		url = template.substitute(params)
-		print(url)
 		return self.get(url)

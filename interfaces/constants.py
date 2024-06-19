@@ -34,6 +34,7 @@ class AlphaVantageResources(Enum):
 		(),
 	)
 
+
 class EODHDResources(Enum):
 	EOD = (
 		Template(
@@ -42,20 +43,14 @@ class EODHDResources(Enum):
 		(('period', 'd'), ('fmt', 'json')),
 	)
 	DIVIDENDS = (
-		Template(
-			'${base_url}/api/div/${symbol}?from=${from}&to=${to}&api_token=${api_token}&fmt=${fmt}'
-		),
+		Template('${base_url}/api/div/${symbol}?from=${from}&to=${to}&api_token=${api_token}&fmt=${fmt}'),
 		(('fmt', 'json'),),
 	)
 	SPLITS = (
-		Template(
-			'${base_url}/api/splits/${symbol}?from=${from}&to=${to}&api_token=${api_token}&fmt=${fmt}'
-		),
+		Template('${base_url}/api/splits/${symbol}?from=${from}&to=${to}&api_token=${api_token}&fmt=${fmt}'),
 		(('fmt', 'json'),),
 	)
 	FUNDAMENTALS = (
-		Template(
-			'${base_url}/api/fundamentals/${symbol}?api_token=${api_token}&fmt=${fmt}'
-		),
+		Template('${base_url}/api/fundamentals/${symbol}?api_token=${api_token}&fmt=${fmt}'),
 		(('fmt', 'json'),),
 	)

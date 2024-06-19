@@ -5,6 +5,7 @@ from requests import RequestException, Session
 from env import EODHD_API_TOKEN, EODHD_BASE_URL
 from interfaces.constants import GET, EODHDResources
 
+
 class EODHDAPIClientError(Exception):
 	pass
 
@@ -57,5 +58,4 @@ class EODHDAPIClient:
 
 		# Generate the URL
 		url = template.substitute(params)
-		print(url)
 		return self.get(url)
